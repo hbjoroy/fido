@@ -1,0 +1,46 @@
+*Dagens luke er Web Authentication (WebAuthN)*
+
+Vi er i starten av ein revolusjon for korleis å logge inn og å gjere annan sterk autentisering på nettet. 
+
+Med Web Authentication kan du nytte Face ID eller fingeravtrykk når du skal logge inn eller bekrefte betalingar og gjere andre ting som krev høg sikkerheit i websider. Dette fungerer likt som vi er vane med i appar på telefonen. Det fungerer til og med på PC med Windows Hello.
+
+Ei nettside som vil nytte dette, treng berre kalle på eit API i nettlesaren. PCen eller mobilen har ein modul (programvare og maskinvare) som kan opprette legitimasjon og autentisere på ein sikker måte. Modulen kan vere tilknytta gjennom USB, Bluetooth eller NFC, eller det kan vere ein innebygga Trusted Platform Module (TPM). Dette blir kalla for ein autentikator (FIDO Authenticator).
+
+*Registrering*
+Når nettsida skal registrere brukaren, kallar ho på APIet i nettlesaren, og opprettar legitimasjon i autentikatoren. I denne prosessen lagar autentikatoren ein privatnøkkel (private key) som aldri kjem ut frå sikker lagring, og leverer ut ein tilhøyrande offentleg nøkkel (public key) som nettsida lagrar unna saman med annan brukarinformasjon.
+
+*Autentisering*
+Når nettsida skal logge deg inn, så sender den noko informasjon til autentikatoren for signering. Denne ber deg låse opp autentikatoren, og signerer informasjonen med privatnøkkelen. Etter at nettsida har fått informasjonen tilbake signert, kan den verifisere at det er samsvar mellom den offentlege nøkkelen den fekk i registreringa og den signerte meldinga (som då beviser at du har tilgang til den private nøkkelen).
+
+Når APIet kallar på autentikatoren, må brukaren låse den opp, typisk med Face ID, fingeravtrykk eller PIN. Dette gjeld både ved registrering og ved autentisering.
+
+*Revolusjon*
+Dette kan føre til at legitimering på web kan bli like enkelt som vi har byrja å bli van med i appar på mobil.
+
+Vi kjem ikkje unna at ein del einingar og nettlesarar ikkje støttar dette, eller at brukaren ikkje kan eller vil nytte denne teknologien førebels.
+
+Det viktigaste det vil føre med seg, er at folk ikkje treng nytta delte hemmelegheitar når dei flyttar seg rundt på nettet. Det blir laga unik legitimasjon for alle nettstadar, og privatnøkkelen blir aldri tilgjengeleg på utsida av autentikatoren.
+
+Over tid vil dette redusere fishing-angrep, sidan det ikkje er råd å fiske ut hemmelegheitar.
+
+*Kva fiksar det ikkje*
+Web Authentication vil ikkje erstatte løysingar for å bevise kven du er når du tek i bruk ei nettside.
+
+Ein kan for eksempel nytte BankID for å "aktivere" innlogging på ei nettside (lage legitimasjon), all bruk av sida etterpå kan gjerast med Face ID eller Windows Hello. 
+
+Det er og på veg ut i marknaden system der du kan scanne pass, så du kan tenke deg at dei som ikkje har BankID kan bevise identiteten sin med pass-scannar, og nytte det som bevis på identitet når ein lagar legitimasjon.
+
+Om nokre år legg EU opp til å krevje at alle borgarar i EU/EØS skal få tilgang til ei digital lommebok. Når dette er på plass, skal det vere råd å presentere ID frå denne lommeboka, og pass-scanning og BankID kan bli mindre relevant. Ref https://www.digdir.no/digitale-felleslosninger/eu-sikter-mot-en-felles-europeisk-eid/2625
+
+*Kven står bak Web Authentication*
+Det er Fido Alliance som står bak utviklinga av WebAuthN, og den har blitt ein offisiell W3C-standard. 
+
+Mange av dei store teknologiselskapa deltek, så det er (eller kjem snart) støtte frå Google, Microsoft, Mozilla og Apple. Chrome, Edge, Firefox og Safari støttar (eller vil støtte) WebAuthN.
+
+Les frå Fido Alliance her: https://fidoalliance.org/how-fido-works/
+
+Du finn ein demo på https://webauthn.io/ - er du på Windows 11? Då kan du nytte "Windows Hello" (Pin eller andlet) som "kodebrikke" for tofaktor på Github. Github nyttar WebAuthN for å få dette til.
+
+Her er god info om korleis å gjere dette som utviklar: https://fidoalliance.org/developers/
+
+W3C-spesifikasjonen: https://www.w3.org/TR/webauthn-1/
